@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import os
+from urllib.parse import urlparse
 
 # Указываете путь к драйверу
 driver_path = 'e:\Soft\chromedriver_win32'
@@ -15,9 +16,13 @@ driver = webdriver.Chrome()
 # Открываем веб-страницу
 driver.get("https://hypermarketmebel.ru/catalog/tumby_dlya_obuvi/")
 
+# Получаем имя папки согласно текущему адресу
+page_url = driver.current_url
+parsed_url = urlparse(page_url)
+page_name = os.path.basename(parsed_url.path)
+
 # Создаем директорию для сохранения HTML-файлов
 save_directory = 'Z:/Training/Programmer/!Python/Project/pr_damebel/HTML'
-page_name = "tumby_dlya_obuvi"
 page_directory = os.path.join(save_directory, page_name)
 
 if not os.path.exists(page_directory):
@@ -44,7 +49,7 @@ while True:
 
 # Получаем и сохраняем HTML-код страницы
 html_content = driver.page_source
-page_name = "tumby_dlya_obuvi.html"
+page_name = page_name + ".html"
 save_path = os.path.join(page_directory, page_name)
 with open(save_path, 'w', encoding='utf-8') as file:
     file.write(html_content)
